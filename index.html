@@ -386,67 +386,59 @@ const hotTakes = [
       "A requiem for songs unheard, silenced by the jury’s word.",
       "Bitter winds and shattered glass, the glory turned to cold morass.",
   // ... add all your hot take lines here ...
-  };
+  ];
+const yearSelect = document.getElementById('yearSelect');
+      const countrySelect = document.getElementById('countrySelect');
 
-    // Populate year dropdown
-  const yearSelect = document.getElementById('yearSelect');
-  Object.keys(participationByYear).forEach(year => {
-    const option = document.createElement('option');
-    option.value = year;
-    option.textContent = year;
-    yearSelect.appendChild(option);
-  });
-
-  // Populate country dropdown based on selected year
-  const countrySelect = document.getElementById('countrySelect');
-  yearSelect.addEventListener('change', () => {
-    const selectedYear = yearSelect.value;
-    countrySelect.innerHTML = '<option value="">--Select Country--</option>'; // reset
-    if(selectedYear) {
-      participationByYear[selectedYear].forEach(country => {
+      // Populate year dropdown
+      for (let year = 2000; year <= 2025; year++) {
         const option = document.createElement('option');
-        option.value = country;
-        option.textContent = country;
-        countrySelect.appendChild(option);
+        option.value = year;
+        option.textContent = year;
+        yearSelect.appendChild(option);
+      }
+
+      // Update country dropdown when year changes
+      yearSelect.addEventListener('change', () => {
+        const selectedYear = yearSelect.value;
+        countrySelect.innerHTML = '<option value="">--Select Country--</option>';
+        if (participationByYear[selectedYear]) {
+          participationByYear[selectedYear].forEach(country => {
+            const option = document.createElement('option');
+            option.value = country;
+            option.textContent = country;
+            countrySelect.appendChild(option);
+          });
+        }
       });
-      countrySelect.disabled = false;
-    } else {
-      countrySelect.disabled = true;
-    }
-  });
 
-  // Helper function to get random element from array
-  function getRandom(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
-  }
+      // Random hot take (any year + country)
+      window.generateHotTake = function() {
+        const years = Object.keys(participationByYear);
+        const randomYear = years[Math.floor(Math.random() * years.length)];
+        const countries = participationByYear[randomYear];
+        const randomCountry = countries[Math.floor(Math.random() * countries.length)];
+        const randomTake = hotTakes[Math.floor(Math.random() * hotTakes.length)];
 
-  // Generate a completely random hot take
-  window.generateHotTake = function() {
-    const year = getRandom(Object.keys(participationByYear));
-    const countries = participationByYear[year];
-    const country = getRandom(countries);
-    const take = getRandom(hotTakes);
-    const hotTakeHTML = `🌟 <strong>${country} ${year}</strong><br><br>“${take}”`;
-    document.getElementById('hotTakeBox').innerHTML = hotTakeHTML;
-  }
+        document.getElementById('hotTakeBox').innerHTML = 
+          `<strong>${randomCountry} (${randomYear})</strong><br><br>“${randomTake}”`;
+      };
 
-  // Generate hot take based on dropdown selections
-  window.generateFilteredHotTake = function() {
-    const selectedYear = yearSelect.value;
-    const selectedCountry = countrySelect.value;
-    if (!selectedYear) {
-      alert('Please select a year.');
-      return;
-    }
-    if (!selectedCountry) {
-      alert('Please select a country.');
-      return;
-    }
-    const take = getRandom(hotTakes);
-    const hotTakeHTML = `🌟 <strong>${selectedCountry} ${selectedYear}</strong><br><br>“${take}”`;
-    document.getElementById('hotTakeBox').innerHTML = hotTakeHTML;
-  }
-});
-</script>
+      // Hot take based on selected year + country
+      window.generateFilteredHotTake = function() {
+        const selectedYear = yearSelect.value;
+        const selectedCountry = countrySelect.value;
+        if (!selectedYear || !selectedCountry) {
+          alert("Please select both a year and a country.");
+          return;
+        }
+        const take = hotTakes[Math.floor(Math.random() * hotTakes.length)];
+        document.getElementById('hotTakeBox').innerHTML =
+          `<strong>${selectedCountry} (${selectedYear})</strong><br><br>“${take}”`;
+      };
+
+    });
+  </script>
+
 </body>
 </html>
