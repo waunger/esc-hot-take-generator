@@ -384,16 +384,19 @@ const hotTakes = [
   // ... add all your hot take lines here ...
   ];
 
-   window.generateHotTake = function () {
+   wdocument.addEventListener("DOMContentLoaded", function () {
+      const button = document.getElementById("hotTakeButton");
+      const output = document.getElementById("hotTakeBox");
+
+      button.addEventListener("click", function () {
         const years = Object.keys(participationByYear);
         const randomYear = years[Math.floor(Math.random() * years.length)];
         const countries = participationByYear[randomYear];
         const randomCountry = countries[Math.floor(Math.random() * countries.length)];
         const randomTake = hotTakes[Math.floor(Math.random() * hotTakes.length)];
 
-        const output = `${randomYear} - ${randomCountry}: ${randomTake}`;
-        document.getElementById("hotTakeBox").textContent = output;
-      };
+        output.textContent = `${randomYear} - ${randomCountry}: ${randomTake}`;
+      });
     });
   </script>
 
