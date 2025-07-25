@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Eurovision Hot Take Generator</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #1c1c1c;
+      color: #ffccff;
+      text-align: center;
+      padding: 50px;
+    }
+    button {
+      background-color: #ff69b4;
+      color: white;
+      padding: 15px 30px;
+      font-size: 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 20px;  
+    }
+    .take {
+      margin-top: 40px;
+      font-size: 24px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔥 Eurovision Hot Take Generator 🔥</h1>
+  <button onclick="generateHotTake()">Give me a hot take</button>
+  <div class="take" id="hotTakeBox"></div>
+
+  <script>
+    const countries = ["Iceland", "Serbia", "Finland", "France", "UK", "Italy", "Moldova", "Norway", "Sweden", "Greece", "Ukraine", "Portugal", "Azerbaijan", "Armenia", "Australia", "Romania", "Poland", "Israel", "Spain", "Switzerland", "Latvia", "Estonia", "Germany", "Belgium", "Croatia", "Lithuania"];
+    const years = Array.from({length: 2023 - 2000 + 1}, (_, i) => 2000 + i);
+    const takeTypes = [
+      "robbed", "criminally underrated", "so overrated it hurts", "snubbed by the juries",
+      "a fever dream that deserved better", "art and Europe wasn’t ready",
+      "voted down for being too iconic", "only lost because Europe has no taste",
+      "proof that justice does not exist in Eurovision", "shut out because the world feared its power"
+    ];
+    const justifications = [
+      "That performance cured my seasonal depression and y’all gave it 12 points total.",
+      "I’ve seen fewer war crimes in historical documentaries than what the jury did to this.",
+      "If that had been Sweden, it would’ve won. I said what I said.",
+      "Name one other entry that delivered a costume reveal, a key change, *and* emotional damage.",
+      "Justice for this bop—Europe was simply not on the right meds that night.",
+      "Vocals? Flawless. Choreo? Unmatched. Results? An international disgrace.",
+      "This was camp, chaos, and culture. Instead, y’all chose beige ballads.",
+      "Europe was too afraid of excellence. That’s the only explanation.",
+      "We don’t talk about how iconic this was because deep down we *know* we failed it.",
+      "12 points from the gays, zero from the universe. Shameful."
+    ];
+
+    function getRandom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function generateHotTake() {
+      const country = getRandom(countries);
+      const year = getRandom(years);
+      const take = getRandom(takeTypes);
+      const justification = getRandom(justifications);
+      const hotTake = `🌟 <strong>${country} ${year}</strong> was ${take}. ${justification}`;
+      document.getElementById("hotTakeBox").innerHTML = hotTake;
+    }
+  </script>
+
+</body>
+</html>  
