@@ -2,31 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Eurovision Hot Take Generator</title>
   <style>
-    /* Your CSS here */
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+    #hotTakeBox {
+      margin-top: 30px;
+      border: 1px solid #ccc;
+      padding: 20px;
+      min-height: 100px;
+      font-size: 18px;
+      background-color: #f9f9f9;
+    }
   </style>
 </head>
 <body>
 
+  <h1>Eurovision Hot Take Generator</h1>
+
   <button onclick="generateHotTake()">Give me a random hot take</button>
 
-  <div class="controls">
-    <select id="yearSelect">
-      <option value="">--Select Year--</option>
-      <!-- Years will be populated by JS -->
-    </select>
-
-    <select id="countrySelect">
-      <option value="">--Select Country--</option>
-      <!-- Countries will be populated by JS -->
-    </select>
-
-    <button onclick="generateFilteredHotTake()">Generate Hot Take (By Selection)</button>
-  </div>
-
-  <div id="hotTakeBox">Press a button to see a hot take!</div>
+  <div id="hotTakeBox">Press the button to see a hot take!</div>
   
   <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -386,57 +391,18 @@ const hotTakes = [
       "A requiem for songs unheard, silenced by the jury’s word.",
       "Bitter winds and shattered glass, the glory turned to cold morass.",
   // ... add all your hot take lines here ...
-  ];
-const yearSelect = document.getElementById('yearSelect');
-      const countrySelect = document.getElementById('countrySelect');
+  };
 
-      // Populate year dropdown
-      for (let year = 2000; year <= 2025; year++) {
-        const option = document.createElement('option');
-        option.value = year;
-        option.textContent = year;
-        yearSelect.appendChild(option);
-      }
-
-      // Update country dropdown when year changes
-      yearSelect.addEventListener('change', () => {
-        const selectedYear = yearSelect.value;
-        countrySelect.innerHTML = '<option value="">--Select Country--</option>';
-        if (participationByYear[selectedYear]) {
-          participationByYear[selectedYear].forEach(country => {
-            const option = document.createElement('option');
-            option.value = country;
-            option.textContent = country;
-            countrySelect.appendChild(option);
-          });
-        }
-      });
-
-      // Random hot take (any year + country)
-      window.generateHotTake = function() {
+   window.generateHotTake = function () {
         const years = Object.keys(participationByYear);
         const randomYear = years[Math.floor(Math.random() * years.length)];
         const countries = participationByYear[randomYear];
         const randomCountry = countries[Math.floor(Math.random() * countries.length)];
         const randomTake = hotTakes[Math.floor(Math.random() * hotTakes.length)];
 
-        document.getElementById('hotTakeBox').innerHTML = 
-          `<strong>${randomCountry} (${randomYear})</strong><br><br>“${randomTake}”`;
+        const output = `${randomYear} - ${randomCountry}: ${randomTake}`;
+        document.getElementById("hotTakeBox").textContent = output;
       };
-
-      // Hot take based on selected year + country
-      window.generateFilteredHotTake = function() {
-        const selectedYear = yearSelect.value;
-        const selectedCountry = countrySelect.value;
-        if (!selectedYear || !selectedCountry) {
-          alert("Please select both a year and a country.");
-          return;
-        }
-        const take = hotTakes[Math.floor(Math.random() * hotTakes.length)];
-        document.getElementById('hotTakeBox').innerHTML =
-          `<strong>${selectedCountry} (${selectedYear})</strong><br><br>“${take}”`;
-      };
-
     });
   </script>
 
