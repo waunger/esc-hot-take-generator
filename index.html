@@ -1,24 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
   <meta charset="UTF-8" />
   <title>Eurovision Hot Take Generator</title>
   <style>
-    /* Reset some defaults */
+    /* Reset */
     * {
       box-sizing: border-box;
     }
 
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: #1c1c1c;
-      color: #ffccff;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #121212; /* very dark gray/black */
       color: #e0b0ff; /* pastel lavender/pink */
       text-align: center;
-      padding: 50px;
       padding: 4rem 2rem;
       margin: 0;
       min-height: 100vh;
@@ -38,16 +33,11 @@
     }
 
     button {
-      background-color: #ff69b4;
-      color: white;
-      padding: 15px 30px;
-      font-size: 20px;
       background: linear-gradient(135deg, #a4508b, #5f0a87);
       color: #fff;
       padding: 14px 36px;
       font-size: 1.25rem;
       border: none;
-      border-radius: 10px;
       border-radius: 9999px;
       cursor: pointer;
       margin-top: 20px;  
@@ -55,9 +45,6 @@
       transition: background 0.3s ease, box-shadow 0.3s ease;
       user-select: none;
     }
-    .take {
-      margin-top: 40px;
-      font-size: 24px;
 
     button:hover,
     button:focus {
@@ -89,17 +76,13 @@
       color: #ffaaff;
       font-weight: 600;
     }
-
   </style>
 </head>
 <body>
 
   <h1>🔥 Eurovision Hot Take Generator 🔥</h1>
   <button onclick="generateHotTake()">Give me a hot take</button>
-  <div class="take" id="hotTakeBox"></div>
-  <h1>Eurovision Hot Take Generator</h1>
-  <button onclick="generateHotTake()">Generate Hot Take</button>
-  <div id="hotTakeBox" class="take">Press the button to see a hot take!</div>
+  <div id="hotTakeBox">Press the button to see a hot take!</div>
 
   <script>
     const countries = ["Iceland", "Serbia", "Finland", "France", "UK", "Italy", "Moldova", "Norway", "Sweden", "Greece", "Ukraine", "Portugal", "Azerbaijan", "Armenia", "Australia", "Romania", "Poland", "Israel", "Spain", "Switzerland", "Latvia", "Estonia", "Germany", "Belgium", "Croatia", "Lithuania"];
@@ -135,11 +118,9 @@
       const hotTake = `🌟 <strong>${country} ${year}</strong> was ${take}. ${justification}`;
       document.getElementById("hotTakeBox").innerHTML = hotTake;
     }
-    // Your JS code here: generateHotTake(), getRandom(), arrays etc.
   </script>
 
 </body>
-</html>  
 </html>
 
 const countries = [
