@@ -4,118 +4,43 @@
   <meta charset="UTF-8" />
   <title>Eurovision Hot Take Generator</title>
   <style>
-    /* your styles here, unchanged */
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #121212;
-      color: #e0b0ff;
-      text-align: center;
-      padding: 4rem 2rem;
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      line-height: 1.5;
-    }
-    h1 {
-      font-weight: 700;
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      color: #d896ff;
-      user-select: none;
-    }
-    button {
-      background: linear-gradient(135deg, #a4508b, #5f0a87);
-      color: #fff;
-      padding: 14px 36px;
-      font-size: 1.25rem;
-      border: none;
-      border-radius: 9999px;
-      cursor: pointer;
-      margin-top: 20px;
-      box-shadow: 0 8px 20px rgba(164, 80, 139, 0.4);
-      transition: background 0.3s ease, box-shadow 0.3s ease;
-      user-select: none;
-    }
-    button:hover,
-    button:focus {
-      background: linear-gradient(135deg, #5f0a87, #a4508b);
-      box-shadow: 0 12px 30px rgba(164, 80, 139, 0.7);
-      outline: none;
-    }
-    #hotTakeBox {
-      margin-top: 3rem;
-      font-size: 1.4rem;
-      max-width: 600px;
-      background-color: #220052;
-      padding: 1.5rem 2rem;
-      border-radius: 15px;
-      box-shadow: 0 8px 24px rgba(91, 33, 106, 0.6);
-      color: #ffd6ff;
-      user-select: text;
-      min-height: 120px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-style: normal;
-      line-height: 1.4;
-      transition: opacity 0.4s ease;
-    }
-    #hotTakeBox strong {
-      color: #ffaaff;
-      font-weight: 600;
-    }
-    select {
-      margin: 10px 15px 0 15px;
-      padding: 8px 15px;
-      font-size: 1rem;
-      border-radius: 10px;
-      border: none;
-      background: #330066;
-      color: #ffd6ff;
-      cursor: pointer;
-      user-select: none;
-      box-shadow: 0 4px 8px rgba(164, 80, 139, 0.4);
-      transition: background 0.3s ease;
-    }
-    select:hover, select:focus {
-      background: #550099;
-      outline: none;
-    }
-    .controls {
-      margin-top: 40px;
-    }
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .controls { margin-top: 20px; }
+    select, button { margin-right: 10px; padding: 5px; }
+    #hotTakeBox { margin-top: 20px; font-weight: bold; }
   </style>
 </head>
 <body>
-
-  <h1>🔥 Eurovision Hot Take Generator 🔥</h1>
+  <h1>Eurovision Hot Take Generator</h1>
 
   <button onclick="generateHotTake()">Give me a random hot take</button>
 
- <div class="controls">
-  <select id="yearSelect">
-    <option value="" selected disabled>Select year</option>
-  </select>
+  <div class="controls">
+    <select id="yearSelect">
+      <option value="">--Select Year--</option>
+    </select>
 
-  <select id="countrySelect">
-    <option value="" selected disabled>Select country</option>
-  </select>
+    <select id="countrySelect">
+      <option value="">--Select Country--</option>
+    </select>
 
-  <button onclick="generateHotTake()">Generate Hot Take</button>
-</div>
+    <button onclick="generateFilteredHotTake()">Generate Hot Take (By Selection)</button>
+  </div>
 
-<div id="hotTakeBox" style="margin-top:20px; font-weight:bold;">
-  Press the button above to see a hot take!
-</div>
-<script>
-// --- Participation data ---
-const participationByYear = {
+  <div id="hotTakeBox">Press a button to see a hot take!</div>
+
+  <script>
+    // Sample hot takes to use (you can expand this list)
+    const hotTakes = [
+      "Justice for 🇲🇹 Malta! They were robbed in {year}!",
+      "{country} should have won in {year}, and you can't change my mind.",
+      "{country} invented music in {year}. No notes.",
+      "{year} was the worst year in Eurovision history—thanks, {country}.",
+      "{country}'s entry in {year} was ahead of its time.",
+      "{country} in {year}? Literal perfection."
+    ];
+
+    const participationByYear = {
   2000: ["🇦🇱 Albania", "🇦🇹 Austria", "🇧🇪 Belgium", "🇧🇬 Bulgaria", "🇨🇿 Czechia", "🇩🇰 Denmark", "🇫🇮 Finland", "🇫🇷 France", "🇩🇪 Germany", "🇬🇷 Greece", "🇮🇸 Iceland", "🇮🇪 Ireland", "🇮🇹 Italy", "🇱🇻 Latvia", "🇱🇹 Lithuania", "🇲🇹 Malta", "🇳🇱 Netherlands", "🇳🇴 Norway", "🇵🇹 Portugal", "🇷🇴 Romania", "🇷🇸 Serbia and Montenegro", "🇪🇸 Spain", "🇸🇪 Sweden", "🇨🇭 Switzerland", "🇬🇧 United Kingdom"],
   2001: ["🇦🇱 Albania", "🇦🇹 Austria", "🇧🇪 Belgium", "🇧🇬 Bulgaria", "🇭🇷 Croatia", "🇨🇿 Czechia", "🇩🇰 Denmark", "🇫🇮 Finland", "🇫🇷 France", "🇩🇪 Germany", "🇬🇷 Greece", "🇮🇸 Iceland", "🇮🇪 Ireland", "🇮🇹 Italy", "🇱🇻 Latvia", "🇱🇹 Lithuania", "🇲🇹 Malta", "🇳🇱 Netherlands", "🇳🇴 Norway", "🇵🇹 Portugal", "🇷🇴 Romania", "🇷🇸 Serbia and Montenegro", "🇪🇸 Spain", "🇸🇪 Sweden", "🇨🇭 Switzerland", "🇬🇧 United Kingdom"],
   2002: ["🇦🇱 Albania", "🇦🇹 Austria", "🇧🇪 Belgium", "🇧🇬 Bulgaria", "🇭🇷 Croatia", "🇨🇿 Czechia", "🇩🇰 Denmark", "🇫🇮 Finland", "🇫🇷 France", "🇩🇪 Germany", "🇬🇷 Greece", "🇮🇸 Iceland", "🇮🇪 Ireland", "🇮🇹 Italy", "🇱🇻 Latvia", "🇱🇹 Lithuania", "🇲🇹 Malta", "🇳🇱 Netherlands", "🇳🇴 Norway", "🇵🇹 Portugal", "🇷🇴 Romania", "🇷🇸 Serbia and Montenegro", "🇪🇸 Spain", "🇸🇪 Sweden","🇨🇭 Switzerland", "🇬🇧 United Kingdom"],
@@ -146,7 +71,7 @@ const participationByYear = {
 
 // --- Hot Takes Array ---
 const hotTakes = [
-  "Robbed. I don’t care what anyone says—this should’ve qualified. Absolute disgrace.",
+      "Robbed. I don’t care what anyone says—this should’ve qualified. Absolute disgrace.",
       "They gave it everything and still the jury snubbed them. Total daylight robbery.",
       "Okay but why did the staging look like a fever dream? I’m still trying to process it.",
       "With how poorly this did, it's obvious that juries need to be reformed… fishy as last year… How can juries be fair? Saying this for years.",
@@ -471,54 +396,64 @@ const hotTakes = [
       "A requiem for songs unheard, silenced by the jury’s word.",
       "Bitter winds and shattered glass, the glory turned to cold morass.",
   // ... add all your hot take lines here ...
-];
+ };
 
-// --- Helper Function ---
-function getRandom(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
+    // Populate dropdowns on page load
+    window.onload = function () {
+      const yearSelect = document.getElementById("yearSelect");
+      const countrySelect = document.getElementById("countrySelect");
 
-// --- Dropdown Population ---
-const yearSelect = document.getElementById('yearSelect');
-const countrySelect = document.getElementById('countrySelect');
+      // Populate year options
+      Object.keys(participationByYear).sort().forEach((year) => {
+        const option = document.createElement("option");
+        option.value = year;
+        option.textContent = year;
+        yearSelect.appendChild(option);
+      });
 
-// Fill years
-Object.keys(participationByYear).sort().forEach(year => {
-  const option = document.createElement('option');
-  option.value = year;
-  option.textContent = year;
-  yearSelect.appendChild(option);
-});
+      // When year changes, populate country dropdown
+      yearSelect.addEventListener("change", function () {
+        const selectedYear = yearSelect.value;
+        countrySelect.innerHTML = '<option value="">--Select Country--</option>';
 
-// Fill countries (unique list sorted)
-const uniqueCountries = [...new Set(Object.values(participationByYear).flat())].sort();
-uniqueCountries.forEach(country => {
-  const option = document.createElement('option');
-  option.value = country;
-  option.textContent = country;
-  countrySelect.appendChild(option);
-});
+        if (participationByYear[selectedYear]) {
+          participationByYear[selectedYear].forEach((country) => {
+            const option = document.createElement("option");
+            option.value = country;
+            option.textContent = country;
+            countrySelect.appendChild(option);
+          });
+        }
+      });
+    };
 
-// --- Generate Function ---
-function generateHotTake() {
-  const year = yearSelect.value;
-  const country = countrySelect.value;
-  const output = document.getElementById('hotTakeBox');
+    function generateHotTake() {
+      const years = Object.keys(participationByYear);
+      const year = years[Math.floor(Math.random() * years.length)];
+      const countries = participationByYear[year];
+      const country = countries[Math.floor(Math.random() * countries.length)];
+      displayHotTake(year, country);
+    }
 
-  if (!year || !country) {
-    alert('Please select both a year and a country.');
-    return;
-  }
+    function generateFilteredHotTake() {
+      const year = document.getElementById("yearSelect").value;
+      const country = document.getElementById("countrySelect").value;
 
-  if (!participationByYear[year] || !participationByYear[year].includes(country)) {
-    output.innerHTML = `❌ <strong>${country}</strong> did NOT participate in <strong>${year}</strong>.`;
-    return;
-  }
+      if (!year || !country) {
+        alert("Please select both a year and a country.");
+        return;
+      }
 
-  const take = getRandom(hotTakes);
-  output.innerHTML = `🌟 <strong>${country} ${year}</strong><br><br>“${take}”`;
-}
-</script>
+      displayHotTake(year, country);
+    }
+
+    function displayHotTake(year, country) {
+      const template = hotTakes[Math.floor(Math.random() * hotTakes.length)];
+      const hotTake = template
+        .replace("{year}", year)
+        .replace("{country}", country);
+      document.getElementById("hotTakeBox").textContent = hotTake;
+    }
+  </script>
 </body>
 </html>
-}
