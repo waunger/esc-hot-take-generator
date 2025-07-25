@@ -25,7 +25,6 @@
   <div id="hotTakeBox">Press the button to see a hot take!</div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
       const participationByYear = {
   2000: ["🇦🇱 Albania", "🇦🇹 Austria", "🇧🇪 Belgium", "🇧🇬 Bulgaria", "🇨🇿 Czechia", "🇩🇰 Denmark", "🇫🇮 Finland", "🇫🇷 France", "🇩🇪 Germany", "🇬🇷 Greece", "🇮🇸 Iceland", "🇮🇪 Ireland", "🇮🇹 Italy", "🇱🇻 Latvia", "🇱🇹 Lithuania", "🇲🇹 Malta", "🇳🇱 Netherlands", "🇳🇴 Norway", "🇵🇹 Portugal", "🇷🇴 Romania", "🇷🇸 Serbia and Montenegro", "🇪🇸 Spain", "🇸🇪 Sweden", "🇨🇭 Switzerland", "🇬🇧 United Kingdom"],
   2001: ["🇦🇱 Albania", "🇦🇹 Austria", "🇧🇪 Belgium", "🇧🇬 Bulgaria", "🇭🇷 Croatia", "🇨🇿 Czechia", "🇩🇰 Denmark", "🇫🇮 Finland", "🇫🇷 France", "🇩🇪 Germany", "🇬🇷 Greece", "🇮🇸 Iceland", "🇮🇪 Ireland", "🇮🇹 Italy", "🇱🇻 Latvia", "🇱🇹 Lithuania", "🇲🇹 Malta", "🇳🇱 Netherlands", "🇳🇴 Norway", "🇵🇹 Portugal", "🇷🇴 Romania", "🇷🇸 Serbia and Montenegro", "🇪🇸 Spain", "🇸🇪 Sweden", "🇨🇭 Switzerland", "🇬🇧 United Kingdom"],
@@ -390,7 +389,6 @@ const hotTakes = [
         const countries = participationByYear[randomYear];
         const randomCountry = countries[Math.floor(Math.random() * countries.length)];
         const randomTake = hotTakes[Math.floor(Math.random() * hotTakes.length)];
-
         const output = `${randomYear} - ${randomCountry}: ${randomTake}`;
         document.getElementById("hotTakeBox").textContent = output;
       };
