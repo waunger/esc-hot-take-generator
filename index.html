@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
   <meta charset="UTF-8" />
   <title>Eurovision Hot Take Generator</title>
   <style>
@@ -10,10 +11,14 @@
     }
 
     body {
+      font-family: 'Arial', sans-serif;
+      background-color: #1c1c1c;
+      color: #ffccff;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #121212; /* very dark gray/black */
       color: #e0b0ff; /* pastel lavender/pink */
       text-align: center;
+      padding: 50px;
       padding: 4rem 2rem;
       margin: 0;
       min-height: 100vh;
@@ -33,17 +38,26 @@
     }
 
     button {
+      background-color: #ff69b4;
+      color: white;
+      padding: 15px 30px;
+      font-size: 20px;
       background: linear-gradient(135deg, #a4508b, #5f0a87);
       color: #fff;
       padding: 14px 36px;
       font-size: 1.25rem;
       border: none;
+      border-radius: 10px;
       border-radius: 9999px;
       cursor: pointer;
+      margin-top: 20px;  
       box-shadow: 0 8px 20px rgba(164, 80, 139, 0.4);
       transition: background 0.3s ease, box-shadow 0.3s ease;
       user-select: none;
     }
+    .take {
+      margin-top: 40px;
+      font-size: 24px;
 
     button:hover,
     button:focus {
@@ -80,125 +94,52 @@
 </head>
 <body>
 
-<h1>Eurovision Hot Take Generator</h1>
+  <h1>🔥 Eurovision Hot Take Generator 🔥</h1>
+  <button onclick="generateHotTake()">Give me a hot take</button>
+  <div class="take" id="hotTakeBox"></div>
+  <h1>Eurovision Hot Take Generator</h1>
+  <button onclick="generateHotTake()">Generate Hot Take</button>
+  <div id="hotTakeBox" class="take">Press the button to see a hot take!</div>
 
-<!-- Button for Fully Random Hot Take -->
-<button onclick="generateHotTake()">Generate Hot Take</button>
-<div id="hotTakeBox" class="take">Press the button to see a hot take!</div>
+  <script>
+    const countries = ["Iceland", "Serbia", "Finland", "France", "UK", "Italy", "Moldova", "Norway", "Sweden", "Greece", "Ukraine", "Portugal", "Azerbaijan", "Armenia", "Australia", "Romania", "Poland", "Israel", "Spain", "Switzerland", "Latvia", "Estonia", "Germany", "Belgium", "Croatia", "Lithuania"];
+    const years = Array.from({length: 2023 - 2000 + 1}, (_, i) => 2000 + i);
+    const takeTypes = [
+      "robbed", "criminally underrated", "so overrated it hurts", "snubbed by the juries",
+      "a fever dream that deserved better", "art and Europe wasn’t ready",
+      "voted down for being too iconic", "only lost because Europe has no taste",
+      "proof that justice does not exist in Eurovision", "shut out because the world feared its power"
+    ];
+    const justifications = [
+      "That performance cured my seasonal depression and y’all gave it 12 points total.",
+      "I’ve seen fewer war crimes in historical documentaries than what the jury did to this.",
+      "If that had been Sweden, it would’ve won. I said what I said.",
+      "Name one other entry that delivered a costume reveal, a key change, *and* emotional damage.",
+      "Justice for this bop—Europe was simply not on the right meds that night.",
+      "Vocals? Flawless. Choreo? Unmatched. Results? An international disgrace.",
+      "This was camp, chaos, and culture. Instead, y’all chose beige ballads.",
+      "Europe was too afraid of excellence. That’s the only explanation.",
+      "We don’t talk about how iconic this was because deep down we *know* we failed it.",
+      "12 points from the gays, zero from the universe. Shameful."
+    ];
 
-<!-- Dropdowns + Button for Filtered Hot Take -->
-<div style="margin-top: 40px;">
-  <select id="yearSelect"></select>
-  <select id="countrySelect"></select>
-  <button onclick="generateFilteredHotTake()">Generate Hot Take (By Selection)</button>
-</div>
-
-<script>
-  // Helper to get random item
-  function getRandom(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
-  }
-
-  function generateHotTake() {
-    const allLines = [...hotTakes, ...commentBasedTakes];
-    const textToShow = `🌟 <strong>${getRandom(countries)} ${getRandom(years)}</strong><br><br>“${getRandom(allLines)}”`;
-
-    const takeBox = document.getElementById("hotTakeBox");
-    takeBox.classList.remove("visible");
-    setTimeout(() => {
-      takeBox.innerHTML = textToShow;
-      takeBox.classList.add("visible");
-    }, 100);
-  }
-
-  function generateFilteredHotTake() {
-    const selectedYear = document.getElementById("yearSelect").value;
-    const selectedCountry = document.getElementById("countrySelect").value;
-    if (!selectedYear || !selectedCountry) {
-      alert("Please select both a year and a country.");
-      return;
+    function getRandom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
     }
 
-    const allLines = [...hotTakes, ...commentBasedTakes];
-    const textToShow = `🌟 <strong>${selectedCountry} ${selectedYear}</strong><br><br>“${getRandom(allLines)}”`;
-
-    const takeBox = document.getElementById("hotTakeBox");
-    takeBox.classList.remove("visible");
-    setTimeout(() => {
-      takeBox.innerHTML = textToShow;
-      takeBox.classList.add("visible");
-    }, 100);
-  }
-
-  // Populate dropdowns dynamically
-  const yearSelect = document.getElementById("yearSelect");
-  const countrySelect = document.getElementById("countrySelect");
-
-  // Initialize year dropdown
-  yearSelect.innerHTML = '<option value="">--Select Year--</option>';
-  years.forEach(year => {
-    const option = document.createElement("option");
-    option.value = year;
-    option.textContent = year;
-    yearSelect.appendChild(option);
-  });
-
-  // When a year is selected, show only countries that participated that year
-  yearSelect.addEventListener("change", () => {
-    const selectedYear = parseInt(yearSelect.value);
-    countrySelect.innerHTML = '<option value="">--Select Country--</option>';
-    if (participationByYear[selectedYear]) {
-      participationByYear[selectedYear].forEach(country => {
-        const option = document.createElement("option");
-        option.value = country;
-        option.textContent = country;
-        countrySelect.appendChild(option);
-      });
+    function generateHotTake() {
+      const country = getRandom(countries);
+      const year = getRandom(years);
+      const take = getRandom(takeTypes);
+      const justification = getRandom(justifications);
+      const hotTake = `🌟 <strong>${country} ${year}</strong> was ${take}. ${justification}`;
+      document.getElementById("hotTakeBox").innerHTML = hotTake;
     }
-  });
-</script>
-
-function generateFilteredHotTake() {
-  // paste the new function code here
-}function generateFilteredHotTake() {
-  const countrySelect = document.getElementById('countrySelect').value;
-  const yearSelect = document.getElementById('yearSelect').value;
-
-  // Resolve country
-  let country;
-  if (countrySelect === 'random') {
-    country = getRandom(countries);
-  } else {
-    country = countries.find(c => getCountryName(c) === countrySelect) || getRandom(countries);
-  }
-
-  // Resolve year
-  let year;
-  if (yearSelect === 'random') {
-    year = getRandom(years);
-  } else {
-    year = parseInt(yearSelect);
-    if (!years.includes(year)) {
-      year = getRandom(years);
-    }
-  }
-
-  const allLines = [...hotTakes, ...commentBasedTakes];
-  const textToShow = getRandom(allLines);
-
-  const output = `<strong>${country} ${year}</strong><br><br>“${textToShow}”`;
-
-  const takeBox = document.getElementById("hotTakeBox");
-  takeBox.classList.remove("visible");
-  setTimeout(() => {
-    takeBox.innerHTML = output;
-    takeBox.classList.add("visible");
-  }, 100);
-}
-
-
+    // Your JS code here: generateHotTake(), getRandom(), arrays etc.
   </script>
+
 </body>
+</html>  
 </html>
 
 const countries = [
@@ -1287,6 +1228,8 @@ const commentBasedTakes = [
   "Fleeting fame on fragile wings, swept away before it sings.",
   "A requiem for songs unheard, silenced by the jury’s word.",
   "Bitter winds and shattered glass, the glory turned to cold morass."
+    
+  // ... your other comment-based takes
 ];
 
 // Utility function: pick a random element from an array
