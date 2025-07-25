@@ -1,27 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Eurovision Hot Take Generator</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 20px;
-      max-width: 600px;
-      margin: auto;
-    }
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 16px;
+      text-align: center;
+      padding: 50px;
     }
     #hotTakeBox {
-      margin-top: 30px;
-      border: 1px solid #ccc;
-      padding: 20px;
-      min-height: 100px;
-      font-size: 18px;
-      background-color: #f9f9f9;
+      margin-top: 20px;
+      font-size: 1.2em;
+      color: #333;
     }
   </style>
 </head>
@@ -32,10 +23,10 @@
   <button onclick="generateHotTake()">Give me a random hot take</button>
 
   <div id="hotTakeBox">Press the button to see a hot take!</div>
-  
+
   <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const participationByYear = {
+    document.addEventListener('DOMContentLoaded', () => {
+      const participationByYear = {
   2000: ["🇦🇱 Albania", "🇦🇹 Austria", "🇧🇪 Belgium", "🇧🇬 Bulgaria", "🇨🇿 Czechia", "🇩🇰 Denmark", "🇫🇮 Finland", "🇫🇷 France", "🇩🇪 Germany", "🇬🇷 Greece", "🇮🇸 Iceland", "🇮🇪 Ireland", "🇮🇹 Italy", "🇱🇻 Latvia", "🇱🇹 Lithuania", "🇲🇹 Malta", "🇳🇱 Netherlands", "🇳🇴 Norway", "🇵🇹 Portugal", "🇷🇴 Romania", "🇷🇸 Serbia and Montenegro", "🇪🇸 Spain", "🇸🇪 Sweden", "🇨🇭 Switzerland", "🇬🇧 United Kingdom"],
   2001: ["🇦🇱 Albania", "🇦🇹 Austria", "🇧🇪 Belgium", "🇧🇬 Bulgaria", "🇭🇷 Croatia", "🇨🇿 Czechia", "🇩🇰 Denmark", "🇫🇮 Finland", "🇫🇷 France", "🇩🇪 Germany", "🇬🇷 Greece", "🇮🇸 Iceland", "🇮🇪 Ireland", "🇮🇹 Italy", "🇱🇻 Latvia", "🇱🇹 Lithuania", "🇲🇹 Malta", "🇳🇱 Netherlands", "🇳🇴 Norway", "🇵🇹 Portugal", "🇷🇴 Romania", "🇷🇸 Serbia and Montenegro", "🇪🇸 Spain", "🇸🇪 Sweden", "🇨🇭 Switzerland", "🇬🇧 United Kingdom"],
   2002: ["🇦🇱 Albania", "🇦🇹 Austria", "🇧🇪 Belgium", "🇧🇬 Bulgaria", "🇭🇷 Croatia", "🇨🇿 Czechia", "🇩🇰 Denmark", "🇫🇮 Finland", "🇫🇷 France", "🇩🇪 Germany", "🇬🇷 Greece", "🇮🇸 Iceland", "🇮🇪 Ireland", "🇮🇹 Italy", "🇱🇻 Latvia", "🇱🇹 Lithuania", "🇲🇹 Malta", "🇳🇱 Netherlands", "🇳🇴 Norway", "🇵🇹 Portugal", "🇷🇴 Romania", "🇷🇸 Serbia and Montenegro", "🇪🇸 Spain", "🇸🇪 Sweden","🇨🇭 Switzerland", "🇬🇧 United Kingdom"],
@@ -391,7 +382,7 @@ const hotTakes = [
       "A requiem for songs unheard, silenced by the jury’s word.",
       "Bitter winds and shattered glass, the glory turned to cold morass.",
   // ... add all your hot take lines here ...
-  };
+  ];
 
    window.generateHotTake = function () {
         const years = Object.keys(participationByYear);
@@ -405,6 +396,9 @@ const hotTakes = [
       };
     });
   </script>
+
+</body>
+</html>
 
 </body>
 </html>
