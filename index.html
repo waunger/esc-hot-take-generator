@@ -80,12 +80,123 @@
 </head>
 <body>
 
-  <h1>Eurovision Hot Take Generator</h1>
-  <button onclick="generateHotTake()">Generate Hot Take</button>
-  <div id="hotTakeBox" class="take">Press the button to see a hot take!</div>
+<h1>Eurovision Hot Take Generator</h1>
 
-  <script>
-    // Your JS code here: generateHotTake(), getRandom(), arrays etc.
+<!-- Button for Fully Random Hot Take -->
+<button onclick="generateHotTake()">Generate Hot Take</button>
+<div id="hotTakeBox" class="take">Press the button to see a hot take!</div>
+
+<!-- Dropdowns + Button for Filtered Hot Take -->
+<div style="margin-top: 40px;">
+  <select id="yearSelect"></select>
+  <select id="countrySelect"></select>
+  <button onclick="generateFilteredHotTake()">Generate Hot Take (By Selection)</button>
+</div>
+
+<script>
+  // Helper to get random item
+  function getRandom(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  function generateHotTake() {
+    const allLines = [...hotTakes, ...commentBasedTakes];
+    const textToShow = `🌟 <strong>${getRandom(countries)} ${getRandom(years)}</strong><br><br>“${getRandom(allLines)}”`;
+
+    const takeBox = document.getElementById("hotTakeBox");
+    takeBox.classList.remove("visible");
+    setTimeout(() => {
+      takeBox.innerHTML = textToShow;
+      takeBox.classList.add("visible");
+    }, 100);
+  }
+
+  function generateFilteredHotTake() {
+    const selectedYear = document.getElementById("yearSelect").value;
+    const selectedCountry = document.getElementById("countrySelect").value;
+    if (!selectedYear || !selectedCountry) {
+      alert("Please select both a year and a country.");
+      return;
+    }
+
+    const allLines = [...hotTakes, ...commentBasedTakes];
+    const textToShow = `🌟 <strong>${selectedCountry} ${selectedYear}</strong><br><br>“${getRandom(allLines)}”`;
+
+    const takeBox = document.getElementById("hotTakeBox");
+    takeBox.classList.remove("visible");
+    setTimeout(() => {
+      takeBox.innerHTML = textToShow;
+      takeBox.classList.add("visible");
+    }, 100);
+  }
+
+  // Populate dropdowns dynamically
+  const yearSelect = document.getElementById("yearSelect");
+  const countrySelect = document.getElementById("countrySelect");
+
+  // Initialize year dropdown
+  yearSelect.innerHTML = '<option value="">--Select Year--</option>';
+  years.forEach(year => {
+    const option = document.createElement("option");
+    option.value = year;
+    option.textContent = year;
+    yearSelect.appendChild(option);
+  });
+
+  // When a year is selected, show only countries that participated that year
+  yearSelect.addEventListener("change", () => {
+    const selectedYear = parseInt(yearSelect.value);
+    countrySelect.innerHTML = '<option value="">--Select Country--</option>';
+    if (participationByYear[selectedYear]) {
+      participationByYear[selectedYear].forEach(country => {
+        const option = document.createElement("option");
+        option.value = country;
+        option.textContent = country;
+        countrySelect.appendChild(option);
+      });
+    }
+  });
+</script>
+
+function generateFilteredHotTake() {
+  // paste the new function code here
+}function generateFilteredHotTake() {
+  const countrySelect = document.getElementById('countrySelect').value;
+  const yearSelect = document.getElementById('yearSelect').value;
+
+  // Resolve country
+  let country;
+  if (countrySelect === 'random') {
+    country = getRandom(countries);
+  } else {
+    country = countries.find(c => getCountryName(c) === countrySelect) || getRandom(countries);
+  }
+
+  // Resolve year
+  let year;
+  if (yearSelect === 'random') {
+    year = getRandom(years);
+  } else {
+    year = parseInt(yearSelect);
+    if (!years.includes(year)) {
+      year = getRandom(years);
+    }
+  }
+
+  const allLines = [...hotTakes, ...commentBasedTakes];
+  const textToShow = getRandom(allLines);
+
+  const output = `<strong>${country} ${year}</strong><br><br>“${textToShow}”`;
+
+  const takeBox = document.getElementById("hotTakeBox");
+  takeBox.classList.remove("visible");
+  setTimeout(() => {
+    takeBox.innerHTML = output;
+    takeBox.classList.add("visible");
+  }, 100);
+}
+
+
   </script>
 </body>
 </html>
@@ -1176,8 +1287,6 @@ const commentBasedTakes = [
   "Fleeting fame on fragile wings, swept away before it sings.",
   "A requiem for songs unheard, silenced by the jury’s word.",
   "Bitter winds and shattered glass, the glory turned to cold morass."
-    
-  // ... your other comment-based takes
 ];
 
 // Utility function: pick a random element from an array
